@@ -138,7 +138,7 @@ def LEIT(M, s):
     s = s + 1
     n = input()
 
-    M[s] = n
+    M[s] = int(n)
     return M, s
 
 
@@ -147,7 +147,7 @@ labels = []
 line_label = []
 final = 0
 line = []
-
+size = 0
 
 for cont, l in enumerate(arq):
     lb = []
@@ -163,7 +163,8 @@ for cont, l in enumerate(arq):
         while lb[0] == '':
             lb.pop(0)
         line.append(lb)
-
+    size = cont
+size = size+1
 #print(line)
 
 s=0
@@ -172,110 +173,117 @@ m=0
 n=0
 p=0
 j=0
+i=0
 M = [-1]*15
 D = [-1]*15
 
-for i, line_code in enumerate(line):
+while i < size:
     #print("o S %i" % s)
-
-    if line_code[0].strip()=="INPP":
+    if line[i][0].strip()=="INPP":
        D, s = INPP(D,s)
-    elif line_code[0].strip()=="CRCT":
-        k = int(line_code[1])
+    elif line[i][0].strip()=="CRCT":
+        k = int(line[i][1])
         #print(M)
         M,s,k=CRCT(M,s,k)
         #print(M)
-    elif line_code[0].strip()=="SOMA":
+    elif line[i][0].strip()=="SOMA":
         M,s =SOMA(M,s)
 
-    elif line_code[0].strip()=="SUBT":
+    elif line[i][0].strip()=="SUBT":
         M,s =SUBT(M,s)
 
-    elif line_code[0].strip()=="MULT":
+    elif line[i][0].strip()=="MULT":
         M,s =MULT(M,s)
 
-    elif line_code[0].strip()=="DIVI":
+    elif line[i][0].strip()=="DIVI":
         M,s =DIVI(M,s)
 
-    elif line_code[0].strip()=="INVR":
+    elif line[i][0].strip()=="INVR":
         M,s =INVR(M,s)
 
-    elif line_code[0].strip()=="NEGA":
+    elif line[i][0].strip()=="NEGA":
         M,s =NEGA(M,s)
 
-    elif line_code[0].strip()=="CONJ":
+    elif line[i][0].strip()=="CONJ":
         M,s =CONJ(M,s)
 
-    elif line_code[0].strip()=="DISJ":
+    elif line[i][0].strip()=="DISJ":
         M,s =DISJ(M,s)
 
-    elif line_code[0].strip()=="CMME":
+    elif line[i][0].strip()=="CMME":
         M,s =CMME(M,s)
 
-    elif line_code[0].strip()=="CMMA":
+    elif line[i][0].strip()=="CMMA":
         M,s =CMMA(M,s)
 
-    elif line_code[0].strip()=="CMIG":
+    elif line[i][0].strip()=="CMIG":
         M,s =CMIG(M,s)
 
-    elif line_code[0].strip()=="CMDG":
+    elif line[i][0].strip()=="CMDG":
         M,s =CMDG(M,s)
 
-    elif line_code[0].strip()=="CMAG":
+    elif line[i][0].strip()=="CMAG":
         M,s =CMAG(M,s)
 
-    elif line_code[0].strip()=="CMEG":
+    elif line[i][0].strip()=="CMEG":
         M,s =CMEG(M,s)
 
-    elif line_code[0].strip()=="DSVF":
+    elif line[i][0].strip()=="DSVF":
         position = 0
         for a,o in enumerate(labels):
-            if line_code[1].strip()  == o.strip():
+            if line[i][1].strip()  == o.strip():
                 position = a
                 break
         p = line_label[position]
         if p!=0:
             M,s,i,p =DSVF(M,s,i,p)
         else:
-            print("Linha %i : RunTime error rotulo %s invalido" % (i + 1, line_code[1]))
+            print("Linha %i : RunTime error rotulo %s invalido" % (i + 1, line[i][1].strip()))
             break
 
-    elif line_code[0].strip()=="DSVS":
+    elif line[i][0].strip()=="DSVS":
         position = 0
-        for a,p in enumerate(labels):
-            if line_code[1].strip()  == p.strip():
+        for a,h in enumerate(labels):
+            if line[i][1].strip()  == h.strip():
                 position = a
                 break
-        p = line_label[position]
+
+        if line_label != []:
+            p = line_label[position]
 
         if p!=0:
             M,i,p = DSVS(M,i,p)
         else:
-            print("Linha %i : RunTime error rotulo %s invalido" % (i + 1, line_code[1]))
+            print("Linha %i : RunTime error rotulo %s invalido" % (i + 1, line[i][1].strip()))
             break
         
-    elif line_code[0].strip()=="AMEM":
-        n = int(line_code[1])
+    elif line[i][0].strip()=="AMEM":
+        n = int(line[i][1])
         M,s,n=AMEM(M,s,n)
 
-    elif line_code[0].strip()=="DMEM":
-        n = int(line_code[1])
+    elif line[i][0].strip()=="DMEM":
+        n = int(line[i][1])
         M,s,n = DMEM(M,s,n)
 
-    elif line_code[0].strip()=="CRVL":
-        buffer = line_code[1][0:len(line_code)-2]
+    elif line[i][0].strip()=="CRVL":
+        buffer = line[i][1][0:len(line[i])-2]
         m = int(buffer)
-        n = int(line_code[2])
+        n = int(line[i][2])
         M,D,s,m,n = CRVL(M,D,s,m,n)
 
-    elif line_code[0].strip()=="ARMZ":
-        buffer = line_code[1][0:len(line_code)-2]
+    elif line[i][0].strip()=="ARMZ":
+        buffer = line[i][1][0:len(line[i])-2]
         m = int(buffer)
-        n = int(line_code[2])
+        n = int(line[i][2])
         M,D,s,m,n = ARMZ(M,D,s,m,n)
 
-    elif line_code[0].strip()=="IMPR":
+    elif line[i][0].strip()=="IMPR":
         M,s = IMPR(M,s)
 
-    elif line_code[0].strip()=="LEIT":
+    elif line[i][0].strip()=="LEIT":
         M,s = LEIT(M,s)
+    if s < -1:
+        print("Linha %i : RunTime error. Stack underflow" % (i + 1))
+        break
+
+    i+=1
