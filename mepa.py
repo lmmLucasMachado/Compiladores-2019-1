@@ -5,7 +5,6 @@ def INPP(D, s):
 
 def CRCT(M, s, k):
     s=s+1
-#    print("print %i" % s)
     M[s] = k
     return M,s,k
 
@@ -158,14 +157,12 @@ for cont, l in enumerate(arq):
         line_label.append(cont)
         lb.pop(0)
         line.append(lb)
-#        print(lb)
     else:
         while lb[0] == '':
             lb.pop(0)
         line.append(lb)
     size = cont
 size = size+1
-#print(line)
 
 s=0
 k=0
@@ -178,14 +175,11 @@ M = [-1]*15
 D = [-1]*15
 
 while i < size:
-    #print("o S %i" % s)
     if line[i][0].strip()=="INPP":
        D, s = INPP(D,s)
     elif line[i][0].strip()=="CRCT":
         k = int(line[i][1])
-        #print(M)
         M,s,k=CRCT(M,s,k)
-        #print(M)
     elif line[i][0].strip()=="SOMA":
         M,s =SOMA(M,s)
 
